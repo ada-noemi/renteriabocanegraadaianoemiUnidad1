@@ -1,75 +1,139 @@
 import React from 'react';
+import HomeHeroBanner from './components/HomeHeroBanner';
+import SiteHeader from './components/SiteHeader';
+import SiteFooter from './components/SiteFooter';
+import { brandTheme } from './theme';
+import { categories, products } from './siteData';
 
-type Category = {
-    id: number;
-    name: string;
-};
-
-type Product = {
-    id: number;
-    name: string;
-    price: number;
-    category: string;
-};
-
-const categories: Category[] = [
-    { id: 1, name: 'Perros' },
-    { id: 2, name: 'Gatos' },
-    { id: 3, name: 'Mamiferos' },
-    { id: 4, name: 'Reptiles' },
-    { id: 5, name: 'Primates' },
-    { id: 6, name: 'Aves' },
-    { id: 7, name: 'Peces' },
-];
-
-const products: Product[] = [
-    { id: 1, name: 'Croquetas Premium', price: 349, category: 'Perros' },
-    { id: 2, name: 'Juguete Mordedera', price: 129, category: 'Perros' },
-    { id: 3, name: 'Arena Sanitaria', price: 95, category: 'Gatos' },
-    { id: 4, name: 'Rascador', price: 219, category: 'Gatos' },
-    { id: 5, name: 'Lampara UVB', price: 299, category: 'Reptiles' },
-    { id: 6, name: 'Alimento para Peces', price: 45, category: 'Peces' },
-    { id: 7, name: 'Jaula para Aves', price: 239, category: 'Aves' },
-    { id: 8, name: 'Snacks Naturales', price: 159, category: 'Primates' },
+const helpLinks = [
+    'Ayuda',
+    'Contactanos',
+    'Recuperacion de contraseña',
+    'Chat',
 ];
 
 export default function Home() {
     return (
-        <div style={{ fontFamily: 'Segoe UI, sans-serif', background: '#f5f7fb', minHeight: '100vh' }}>
-            <header style={{ background: '#0f4c81', color: '#fff', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h1 style={{ margin: 0 }}>PetWord</h1>
-                <div style={{ fontWeight: 600 }}>Carrito: 0</div>
-            </header>
+        <div id="inicio" style={{ fontFamily: 'Segoe UI, sans-serif', background: brandTheme.bg, minHeight: '100vh', color: brandTheme.text }}>
+            <SiteHeader />
 
-            <main style={{ maxWidth: 1100, margin: '0 auto', padding: 24 }}>
-                <h2 style={{ color: '#0f4c81' }}>Categorias</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 16, marginBottom: 24 }}>
-                    <button type="button" style={{ border: '1px solid #c9d5e5', borderRadius: 12, background: '#dff1ff', padding: 12, cursor: 'default' }}>
-                        Todos
-                    </button>
-                    {categories.map((category) => (
-                        <button key={category.id} type="button" style={{ border: '1px solid #c9d5e5', borderRadius: 12, background: '#fff', padding: 12, cursor: 'default' }}>
-                            {category.name}
-                        </button>
-                    ))}
-                </div>
+            <HomeHeroBanner />
 
-                <h2 style={{ color: '#0f4c81' }}>Productos</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
-                    {products.map((product) => (
-                        <article key={product.id} style={{ background: '#fff', border: '1px solid #dde6f2', borderRadius: 14, overflow: 'hidden' }}>
-                            <div style={{ padding: 12 }}>
-                                <h3 style={{ marginTop: 0, marginBottom: 6 }}>{product.name}</h3>
-                                <p style={{ marginTop: 0, color: '#4f5f79' }}>{product.category}</p>
-                                <p style={{ margin: '8px 0', fontWeight: 700 }}>${product.price}.00</p>
-                                <button type="button" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: 'none', background: '#0f4c81', color: '#fff', cursor: 'default' }}>
-                                    Agregar al carrito
-                                </button>
-                            </div>
-                        </article>
-                    ))}
-                </div>
+            <main style={{ maxWidth: 1180, margin: '0 auto', padding: '18px 16px 36px' }}>
+                <section id="categorias" style={{ marginBottom: 24 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', gap: 20, marginBottom: 20, flexWrap: 'wrap' }}>
+                        <div>
+                            <span style={{ color: brandTheme.orange, fontSize: 13, fontWeight: 700, textTransform: 'uppercase' }}>Categorias</span>
+                            <h2 style={{ color: brandTheme.navy, margin: '4px 0 0', fontSize: 'clamp(24px, 4vw, 32px)' }}>Explora por tipo de mascota</h2>
+                            <p style={{ margin: '8px 0 0', color: brandTheme.muted, maxWidth: 620, lineHeight: 1.7 }}>
+                                Un acceso visual a las categorias principales.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 18 }}>
+                        {categories.map((category) => (
+                            <a
+                                key={category.id}
+                                href={`/categorias#${category.slug}`}
+                                style={{
+                                    textDecoration: 'none',
+                                    color: brandTheme.text,
+                                    textAlign: 'center',
+                                    fontWeight: 700,
+                                    padding: '12px 10px 8px',
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        position: 'relative',
+                                        height: 170,
+                                        marginBottom: 10,
+                                        display: 'grid',
+                                        placeItems: 'center',
+                                    }}
+                                >
+                                    <img
+                                        src={category.image}
+                                        alt={category.name}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            maxWidth: 160,
+                                            maxHeight: 160,
+                                            objectFit: 'contain',
+                                            position: 'relative',
+                                            zIndex: 2,
+                                        }}
+                                    />
+                                </div>
+                                <span style={{ display: 'block', color: '#df6f14', fontSize: 17 }}>{category.name}</span>
+                            </a>
+                        ))}
+                    </div>
+                </section>
+
+                <section id="productos" style={{ marginBottom: 24 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', gap: 20, marginBottom: 16, flexWrap: 'wrap' }}>
+                        <div>
+                            <span style={{ color: brandTheme.orange, fontSize: 13, fontWeight: 700, textTransform: 'uppercase' }}>Productos</span>
+                            <h2 style={{ color: brandTheme.navy, margin: '4px 0 0', fontSize: 'clamp(24px, 4vw, 28px)' }}>Seccion principal del Home</h2>
+                        </div>
+                        <span style={{ color: brandTheme.muted }}>Cards estaticas para definir la interfaz antes de agregar funciones</span>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
+                        {products.map((product) => (
+                            <article key={product.id} style={{ background: brandTheme.creamSoft, border: `1px solid ${brandTheme.border}`, borderRadius: 16, overflow: 'hidden', boxShadow: '0 14px 24px rgba(12, 40, 62, 0.08)' }}>
+                                <div style={{ padding: 14 }}>
+                                    <div
+                                        style={{
+                                            height: 184,
+                                            borderRadius: 14,
+                                            background: `linear-gradient(135deg, ${brandTheme.cream} 0%, #e6dbc7 100%)`,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            padding: 14,
+                                            marginBottom: 14,
+                                            overflow: 'hidden',
+                                        }}
+                                    >
+                                        {product.image ? (
+                                            <img
+                                                src={product.image}
+                                                alt={product.name}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    objectFit: 'contain',
+                                                    mixBlendMode: 'multiply',
+                                                }}
+                                            />
+                                        ) : (
+                                            <div style={{ textAlign: 'center', color: brandTheme.muted }}>
+                                                <strong style={{ display: 'block', color: brandTheme.navy, fontSize: 17, marginBottom: 6 }}>{product.name}</strong>
+                                                <span style={{ fontSize: 13 }}>Imagen pendiente</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <span style={{ display: 'inline-block', background: brandTheme.navyDeep, color: brandTheme.creamSoft, borderRadius: 999, padding: '5px 10px', fontSize: 12, fontWeight: 700, marginBottom: 10 }}>
+                                        {product.category}
+                                    </span>
+                                    <strong style={{ display: 'block', fontSize: 18, color: brandTheme.navy, marginBottom: 6 }}>{product.name}</strong>
+                                    <p style={{ marginTop: 0, color: brandTheme.muted }}>{product.category}</p>
+                                    <p style={{ margin: '8px 0 12px', fontWeight: 700, fontSize: 22, color: brandTheme.navyDeep }}>${product.price}.00</p>
+                                    <button type="button" style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: 'none', background: brandTheme.orange, color: '#fff', cursor: 'default', fontWeight: 700 }}>
+                                        Agregar al carrito
+                                    </button>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </section>
             </main>
+
+            <SiteFooter categories={categories} helpLinks={helpLinks} />
         </div>
     );
 }
